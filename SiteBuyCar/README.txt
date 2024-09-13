@@ -1,0 +1,1 @@
+This site was created using the author's idea. In it, I use the MVC principle in the C# ASP.NET language. An MSSQL database is used to store data for Car, Category, Order, and others."
