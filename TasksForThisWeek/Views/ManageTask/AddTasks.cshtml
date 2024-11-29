@@ -1,0 +1,193 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks For This Week</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Шапка */
+        header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #000;
+            text-decoration: none;
+        }
+
+        .navbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 15px;
+        }
+
+            .navbar ul li {
+                display: inline;
+            }
+
+                .navbar ul li a {
+                    text-decoration: none;
+                    color: #333;
+                    font-size: 1rem;
+                }
+
+                    .navbar ul li a:hover {
+                        color: #007bff;
+                    }
+
+        /* Основний контейнер */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Форма додавання задач */
+        .form-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            margin: 20px auto;
+        }
+
+        h1 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input, textarea, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #218838;
+            }
+
+        /* Футер */
+        footer {
+            background-color: #f8f9fa;
+            border-top: 1px solid #ddd;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+            footer a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+
+    </style>
+</head>
+<body>
+    <!-- Основний контент -->
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div class="form-container">
+                <h1>Add a Task</h1>
+                <form id="taskForm">
+                    <label for="name">Task Name:</label>
+                    <input type="text" id="name" name="name" required />
+
+                    <label for="text">Task Description:</label>
+                    <textarea id="text" name="text" required></textarea>
+
+                    <label for="day">Day of the Week:</label>
+                    <select id="day" name="day" required>
+                        <option value="0">Monday</option>
+                        <option value="1">Tuesday</option>
+                        <option value="2">Wednesday</option>
+                        <option value="3">Thursday</option>
+                        <option value="4">Friday</option>
+                        <option value="5">Saturday</option>
+                        <option value="6">Sunday</option>
+                    </select>
+
+                    <button type="button" onclick="addTask()">Add Task</button>
+                </form>
+                <p id="message" style="color: green; text-align: center;"></p>
+            </div>
+        </main>
+    </div>
+
+
+    <script>
+        async function addTask() {
+            const name = document.getElementById("name").value;
+            const text = document.getElementById("text").value;
+            const day = document.getElementById("day").value;
+
+            const task = {
+                name: name,
+                text: text,
+                day: parseInt(day)
+            };
+
+            try {
+                const response = await fetch("/api/Tasks", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(task)
+                });
+
+                if (response.ok) {
+                    document.getElementById("message").innerText = "Task added successfully!";
+                    document.getElementById("taskForm").reset();
+                } else {
+                    document.getElementById("message").innerText = "Error adding task.";
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById("message").innerText = "Something went wrong.";
+            }
+        }
+    </script>
+</body>
+</html>

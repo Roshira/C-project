@@ -1,6 +1,97 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-<h1>Hello Guys i am your fun</h1>
+﻿@model IEnumerable<IGrouping<TasksForThisWeek.Models.Data.DaysOfWeek, TasksForThisWeek.Models.Data.TasksThisWeek>>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print Tasks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #c82333;
+            }
+
+        .day-header {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tasks for This Week</h1>
+
+        @foreach (var group in Model)
+        {
+            <div class="day-header">
+                <h2>@group.Key.ToString()</h2> <!-- Виводимо день тижня -->
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Task Name</th>
+                        <th>Task Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var task in group)
+                    {
+                        <tr>
+                            <td>@task.Name</td>
+                            <td>@task.Text</td>
+                            <td>
+                                <form method="post" action="@Url.Action("DeleteTask", "PrintTask")">
+                                    <input type="hidden" name="id" value="@task.Id" />
+                                    <button type="submit">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+    </div>
+</body>
+</html>
