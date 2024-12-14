@@ -1,0 +1,2 @@
+In this program, a site was written where the user can add and delete tasks for a week. The frontend was written in JS, HTML, CSS, and the backend was written in .net using the Entity Framework for working with the MSSQL database.
+Video report: https://youtu.be/-t48lRPHMW8

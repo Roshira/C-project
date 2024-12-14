@@ -11,24 +11,21 @@ namespace TasksForThisWeek.Controllers
         private readonly TasksForThisWeekContext _context;
         private readonly ILogger<PrintTaskController> _logger;
 
-        // Ін'єкція контексту бази даних для доступу до задач
         public PrintTaskController(TasksForThisWeekContext context, ILogger<PrintTaskController> logger)
         {
             _context = context;
             _logger = logger;
         }
 
-        // Дія для виведення всіх задач по дням
         public async Task<IActionResult> PrintTasks()
         {
             var tasks = await _context.TasksThisWeek
                 .GroupBy(t => t.Day)
-                .ToListAsync(); // Групуємо задачі по дням
+                .ToListAsync();
 
             return View(tasks);
         }
 
-        // Дія для видалення задачі
         [HttpPost]
         public async Task<IActionResult> DeleteTask(int id)
         {
@@ -38,7 +35,7 @@ namespace TasksForThisWeek.Controllers
                 _context.TasksThisWeek.Remove(task);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction(nameof(PrintTasks)); // Після видалення перенаправляємо назад на сторінку
+            return RedirectToAction(nameof(PrintTasks));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
