@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ColoringPage.Pages
+namespace WebApplication1.Pages
 {
     public class IndexModel : PageModel
     {

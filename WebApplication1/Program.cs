@@ -22,6 +22,4 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-app.MapFallbackToPage("/Menu/Home");
-
 app.Run();
